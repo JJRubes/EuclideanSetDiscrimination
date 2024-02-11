@@ -1,4 +1,5 @@
 import time
+from math import floor
 debug = 0
 
 """
@@ -12,15 +13,17 @@ works for all f(x: int, y: int) -> int
 def naive_bounded_count(aLB, aUB, bLB, bUB, cLB, cUB, f):
     count = 0
     for i in range(aLB, aUB + 1):
+        inner_count = 0
         for j in range(bLB, bUB + 1):
             if cLB <= f(i, j) <= cUB:
                 if debug > 1:
                     print("x", end=" ")
-                count += 1
+                inner_count += 1
             elif debug > 1:
                     print(".", end=" ")
+        count += inner_count
         if debug > 1:
-            print("")
+            print(inner_count)
     return count
 
 
@@ -63,13 +66,13 @@ class DistCounter:
             if is_in_range:
                 # if you start in range, you will stay in range until
                 # you reach another intersection
-                additional = int(next_intersection) - current_position + 1
+                additional = floor(next_intersection) - current_position + 1
                 if debug > 1:
-                    print(f"next - current + 1 = {int(next_intersection)} - {current_position} + 1 = {additional}")
+                    print(f"next - current + 1 = {floor(next_intersection)} - {current_position} + 1 = {additional}")
                 count += additional
-            elif int(next_intersection) == next_intersection and self.in_range(x, next_intersection):
+            elif floor(next_intersection) == next_intersection:
                 count += 1
-            current_position = int(next_intersection) + 1
+            current_position = floor(next_intersection) + 1
             is_in_range = self.in_range(x, current_position)
         if is_in_range and current_position <= self.B_ub:
             if debug > 1:
@@ -103,12 +106,26 @@ if __name__ == "__main__":
             return []
         return [C_lb / x, C_ub / x]
 
-    A_lb = -50000
-    A_ub = 50000
-    B_lb = -10000
-    B_ub = 90000
+    # A_lb = -50000
+    # A_ub = 50000
+    # B_lb = -10000
+    # B_ub = 90000
+    # C_lb = -123
+    # C_ub = 456
+
+    A_lb = -500
+    A_ub = 500
+    B_lb = -100
+    B_ub = 900
     C_lb = -123
     C_ub = 456
+
+    # A_lb = -50
+    # A_ub = 50
+    # B_lb = -10
+    # B_ub = 90
+    # C_lb = -123
+    # C_ub = 456
 
     # A_lb = -2
     # A_ub = 8
@@ -117,11 +134,11 @@ if __name__ == "__main__":
     # C_lb = 6
     # C_ub = 30
 
-    # start = time.time()
-    # naive_count = naive_bounded_count(A_lb, A_ub, B_lb, B_ub, C_lb, C_ub, f)
-    # naive_time = time.time() - start
-    # print("Naive Method:")
-    # print(f"Count: {naive_count}, Time: {naive_time}\n")
+    start = time.time()
+    naive_count = naive_bounded_count(A_lb, A_ub, B_lb, B_ub, C_lb, C_ub, f)
+    naive_time = time.time() - start
+    print("Naive Method:")
+    print(f"Count: {naive_count}, Time: {naive_time}\n")
 
     dc = DistCounter(A_lb, A_ub, B_lb, B_ub, C_lb, C_ub, f, f_intersect)
     start = time.time()
