@@ -10,7 +10,7 @@ within the bounds.
 
 ### Brute Force
 Brute force is the canonical solution, and the only solution that works for
-all f. The code in `naive_method.py` is an implementation of this solution.
+all f. The code in [naive_method.py](./naive_method.py) is an implementation of this solution.
 
 ### Addition Solution
 For f(x, y) = x + y there is fairly simple solution that can run in O(1)
@@ -31,7 +31,7 @@ a, as possible at once. By finding y where f(a, y) intersects with the upper
 and lower bounds the segments between each intersection can be counted all
 at once. Thus, for simple f this is a constant time check. 
 
-The implementation I have provided in slice_intersection_method.py requires
+The implementation I have provided in [slice_intersection_method.py](./slice_intersection_method.py) requires
 that an additional f_intersect method is provided, that can calculate the
 intersection points. This is to reduce the amount of work to get this
 demonstration working, whilst still providing flexibility. For example, even
